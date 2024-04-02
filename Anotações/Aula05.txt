@@ -1,0 +1,67 @@
+----------26/03/24----------
+
+
+	Normalização
+Serve para analisar tabelas e organizalas de modo que a sua estrutura seja símples, relacionar e estável, para que o gerenciamento possa ser também eficiente e seguro.
+
+	Objetivos
+São evitar a perda e a repetição da informação e atingir uma forma de representação adequada para o que se deseja armazenar.
+- Evitar problemas de redundancia e anomalias de atualização, que podem estar presentes em uma entidade. A solução então é a decomposição de uma entidade em uma ou mais entidades, com na aplicação das Formas Normais(FN).
+
+É um conjunto de regras que expressam critérios práticos de simplificação de tabelas.
+
+Nota Fiscal
+
+NRO-Nota
+Nome-cliente  ?
+END-cliente  ?
+COD-Produto
+DESC-Produto
+QTD-Produto
+VL-Produto
+VL_TOT-Produto
+
+
+	1°FN
+Exige que a tabela não tenha alinhamentos(atributos repetitivos),
+Realiza que chamamos de nivelamento, gerando uma tabela com todos os dados coletados em atributos atôicos.
+
+A PK será formada pela composição da PK de cada tabela alinhada, alem da PK na tabela externa.
+
+Caso existam atributos multivalorados, estes devem se tornar componentes da PK, uma vez que seus valores estarão associados várias vezes com os demais dados da tabela. Se ainda existia alinhamento, provavelmente a 1FN não é o estado final, uma vez que haverá muita redundância dos dados da tabela externa, quando se relacionam com ocorrencias das tabelas internas ou vice versa.
+Uma tabela está na 1FN se nenhum dos seus atributos possuem dominio multi valoravel, ou seja, são eliminados itens repetitivos.
+
+Nota fiscal
+Nro-nota
+End-Cliente, ENDcliente
+Nr-vendedor
+dt-emissão
+VL-Total.nota
+
+Item.Nota.Fiscal
+Nr.Nota
+Cod.Produto
+Descr-Produto
+Quant-Produto
+Val-Prduto
+ValTotal
+
+	2FN
+Dependencia Funcional (DF):
+Sempre que um conunto de um ou mais atributos determina o valor de outro conjunto de um ou mais atributos. A regra diz que esta na 2FN se e somente se estiver na 1FN e todo atributo não chave depende, funcionalmente de toda chave primaria e não apenas parte dela. Caso seja verificado DF de parte da PK, gera-se uma tabela que tem esse atributo não chavee essa parte da PK (que se torna agora a PK completa). Se existirem outro atributos não chave com DF dessa mesma PK, esses serão inseridos nesta nova tabela. O resultado dessa etapa é um conjunto de tabelas onde só existem DF da pk completa.
+
+Obviamente, tableas com PK simples ou que não possuem atributos não chaves já estão automaticamente na 2FN. Mesmo após aplicação da 2Fn, pode ainda existir problemas de redundancia e anomalias de atualização.
+
+Nota Fiscal
+NRM-nota
+Nom-cliente
+End-cliente
+Num-vendedor, dt-emissão, vl-nota
+
+Item Nota Fiscal
+Nrm-nota, Cod-produto,Qt-produto, vl-preço, vl-total
+
+Produto
+Cod-produto, desc-produto, un-medida, vl-produto
+
+Objetivo da 2FN é evitar que se mantenha informações sobre um conjunto que tem intersecção com o conjuto representado na tabela, mas possuem existencia independente. Alem da maior ocupação de espaço, a redundancia aumenta a possibilidade de inconsistência.
